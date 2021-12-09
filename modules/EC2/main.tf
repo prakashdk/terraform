@@ -20,8 +20,8 @@ resource "aws_internet_gateway" "PrakashIG" {
 }
 
 resource "aws_instance" "PrakashInstances" {
-  ami                         = "ami-0ed9277fb7eb570c9"
-  instance_type               = "t2.micro"
+  ami                         = var.ami
+  instance_type               = var.instance_type
   security_groups             = [aws_security_group.PrakashEC2-SG.id]
   key_name                    = "MyAWSKey"
   subnet_id                   = aws_subnet.PrakashSubnets[count.index].id

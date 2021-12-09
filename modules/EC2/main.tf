@@ -1,30 +1,9 @@
-
-resource "aws_vpc" "PrakashVPC" {
-  cidr_block       = var.cidr
-  instance_tenancy = "default"
-
-  tags = {
-    Name        = var.vpc_name
-    environment = "training"
-  }
-}
-
-
-resource "aws_internet_gateway" "PrakashIG" {
-  vpc_id = aws_vpc.PrakashVPC.id
-
-  tags = {
-    Name        = "${var.vpc_name}-ig"
-    environment = "training"
-  }
-}
-
 resource "aws_instance" "PrakashInstances" {
   ami                         = var.ami
   instance_type               = var.instance_type
-  security_groups             = [aws_security_group.PrakashEC2-SG.id]
+  security_groups             = var.security_groups
   key_name                    = "MyAWSKey"
-  subnet_id                   = aws_subnet.PrakashSubnets[count.index].id
+  subnet_id                   = var.public_subnets[count.index]
   associate_public_ip_address = true
 
   count = var.instance_count
@@ -38,7 +17,7 @@ sudo systemctl enable httpd
 EOF
 
   tags = {
-    Name        = "${var.vpc_name}-ec2-${count.index+1}"
+    Name        = "${var.instance_name}-ec2-${count.index+1}"
     environment = "training"
   }
 }

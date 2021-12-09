@@ -1,7 +1,7 @@
 resource "aws_security_group" "PrakashEC2-SG" {
   name        = "PrakashEC2-SG"
   description = "Allow TLS inbound traffic"
-  vpc_id      = aws_vpc.PrakashVPC.id
+  vpc_id      = module.VPC.vpc_id
 
   ingress {
     description = "TLS from VPC"

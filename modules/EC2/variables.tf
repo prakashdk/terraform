@@ -30,3 +30,22 @@ variable "vpc_id" {
   description = "vpc id for target group"
   type = string
 }
+
+variable "key_pair" {
+  description = "name of the key pair"
+  type = string
+}
+
+variable "alb_name" {
+  description = "name of the alb"
+  type = string
+}
+
+variable "file_path" {
+  description = "(optional) describe your variable"
+  type = string
+}
+variable "web_src" {
+  description = "src path of web"
+  type = string
+}

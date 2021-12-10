@@ -1,6 +1,6 @@
 
 resource "aws_lb" "PrakashALB" {
-  name               = "PrakashTF-ALB"
+  name               = var.alb_name
   internal           = false
   load_balancer_type = "application"
   security_groups    = var.security_groups
@@ -9,25 +9,25 @@ resource "aws_lb" "PrakashALB" {
   enable_deletion_protection = false
 
   tags = {
-    Name = "PrakashTF-ALB"
-    envronment="training"
+    Name       = var.alb_name
+    envronment = "training"
   }
 }
 
 resource "aws_lb_target_group" "PrakashTF-TG" {
-  name     = "PrakashTF-TG"
-  port     = 80
-  protocol = "HTTP"
+  name        = "PrakashTF-TG"
+  port        = 80
+  protocol    = "HTTP"
   target_type = "instance"
-  vpc_id   = var.vpc_id
-  
+  vpc_id      = var.vpc_id
+
 }
 
 resource "aws_lb_target_group_attachment" "PrakashTGA1" {
   target_group_arn = aws_lb_target_group.PrakashTF-TG.arn
   target_id        = aws_instance.PrakashInstances[count.index].id
   port             = 80
-  count = length(aws_instance.PrakashInstances)
+  count            = length(aws_instance.PrakashInstances)
 }
 
 
